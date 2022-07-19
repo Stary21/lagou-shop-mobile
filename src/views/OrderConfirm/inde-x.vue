@@ -1,4 +1,3 @@
-
 <template>
-  <router-view />
+  确认订单
 </template>

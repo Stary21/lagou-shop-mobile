@@ -1,4 +1,3 @@
-
 <template>
-  <router-view />
+  搜索页面
 </template>

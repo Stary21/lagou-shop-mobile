@@ -1,4 +1,3 @@
-
 <template>
-  <router-view />
+  评价页面
 </template>

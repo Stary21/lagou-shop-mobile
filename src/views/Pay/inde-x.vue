@@ -1,4 +1,3 @@
-
 <template>
-  <router-view />
+  支付页面
 </template>

@@ -1,4 +1,3 @@
-
 <template>
-  <router-view />
+  订单页面
 </template>
