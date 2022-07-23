@@ -21,11 +21,11 @@ export default defineConfig({
       ]
     }
   }
-  // ,
-  // server: {
-  //   host: 'localhost',
-  //   cors: true,
-  //   open: true,
-  //   hmr: true
-  // }
+  ,
+  server: {
+    host: '0.0.0.0'
+    // cors: true,
+    // open: true,
+    // hmr: true
+  }
 })
