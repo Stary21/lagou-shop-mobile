@@ -7,7 +7,7 @@ import store from '@/store'
 import router from '@/router'
 request.interceptors.request.use(config => {
   const { user } = store.state
-  config.headers.Authorization = 'Bearer ' + user
+  config.headers.Authorization = 'Bearer ' + user.token
   return config
 })
 

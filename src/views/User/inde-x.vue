@@ -47,15 +47,13 @@
 
 <script setup>
 import LayoutFooter from '@/components/LayoutFooter.vue'
-
-import resetUrl from '@/utils/reset.js'
 import { getUserInfo } from '@/api/user'
 import { computed, ref } from '@vue/reactivity'
 
 // 数据处理
 const userData = ref({})
 // 用户头像
-const userAvatar = computed(() => userData.value?.switchUserInfo?.[0].avatar || 'https://shop.fed.lagounews.com/uploads/attach/2021/06/20210611/abe8989da91300ab559ddf619597e258.png')
+const userAvatar = computed(() => userData.value?.switchUserInfo?.[0].avatar)
 // 用户昵称
 const username = computed(() => userData.value?.nickname || '')
 // 用户 ID
@@ -70,7 +68,6 @@ const now_money = computed(() => userData.value?.now_money?.toString() || '')
 // 初始化用户数据
 const initUserInfo = async () => {
   const { data } = await getUserInfo()
-  console.log(data)
   if (data.status !== 200) { return }
   userData.value = data.data
 }

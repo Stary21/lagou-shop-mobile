@@ -178,6 +178,18 @@ const handleTagChange = (tag, specIndex) => {
   specState.spec[specIndex] = tag
 }
 
+import { useStore } from 'vuex'
+const store = useStore()
+const handleCartAdd = () => {
+  if (!store.state.user.token) {
+    return router.push({
+      name: 'login',
+      query: {
+        redirect: router.currentRoute.value.fullPath
+      }
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -131,7 +131,6 @@ const submitHandle = async () => {
   }
   //   // 接收响应数据
   if (data.status !== 200) { return Toast('用户名或密码错误') }
-  console.log(data)
   // 成功时，通过 mutation 提交新的 token 信息
   store.commit('user/setUser', data.data.token)
   // 跳转页面
