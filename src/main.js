@@ -5,8 +5,9 @@ import 'amfe-flexible'
 import './styles/base.css'
 import Vant from 'vant'
 import 'vant/lib/index.css'
-
+import store from './store'
 const app = createApp(App)
 app.use(router)
-app.mount('#app')
 app.use(Vant)
+app.use(store)
+app.mount('#app')

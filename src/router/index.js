@@ -26,23 +26,27 @@ const routes = [
     path: '/order-confirm',
     name: 'order-confirm',
     component: () => import('@/views/OrderConfirm/inde-x.vue'),
-    props: true
+    props: true,
+    meta: { requireAuth: true }
   },
   {
     path: '/order',
     name: 'order',
-    component: () => import('@/views/Order/inde-x.vue')
+    component: () => import('@/views/Order/inde-x.vue'),
+    meta: { requireAuth: true }
   },
   {
     path: '/order-detail/:orderId',
     name: 'order-detail',
     component: () => import('@/views/OrderDetail/inde-x.vue'),
-    props: true
+    props: true,
+    meta: { requireAuth: true }
   },
   {
     path: '/pay',
     name: 'pay',
-    component: () => import('@/views/Pay/inde-x.vue')
+    component: () => import('@/views/Pay/inde-x.vue'),
+    meta: { requireAuth: true }
   },
   {
     path: '/product/:productId',
@@ -64,7 +68,8 @@ const routes = [
   {
     path: '/cart',
     name: 'cart',
-    component: () => import('@/views/Cart/index-cart.vue')
+    component: () => import('@/views/Cart/index-cart.vue'),
+    meta: { requireAuth: true }
   },
   {
     path: '/search',
@@ -76,7 +81,8 @@ const routes = [
     path: '/user',
     name: 'user',
     component: () => import('@/views/User/inde-x.vue'),
-    props: true
+    props: true,
+    meta: { requireAuth: true }
   },
   {
     path: '/:pathMatch(.*)*',
@@ -90,5 +96,20 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
+import store from '@/store/index'
+router.beforeEach(to => {
+  if (!to.meta.requireAuth) {
+    return true
+  }
+  if (!store.state.user || !window.localStorage.getItem('USER_TOKEN')) {
+    return {
+      name: 'login',
+      query: {
+        redirect: to.fullPath
+      }
+    }
+  }
+})
+
 
 export default router

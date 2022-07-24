@@ -1,6 +1,11 @@
 <template>
   <van-grid :center="false" :gutter="15" class="product-list" :column-num="2">
-    <van-grid-item v-for="item in productsData" :key="item.id">
+    <van-grid-item :to="{
+      name: 'product',
+      params: {
+        productId: item.id
+      }
+    }" v-for="item in productsData" :key="item.id">
       <van-image height="165" :src="item.image" />
       <p class="title">{{ item.store_name }}</p>
       <p class="price">￥{{ item.price }}</p>
@@ -8,7 +13,7 @@
     </van-grid-item>
   </van-grid>
 </template>
-<script setup>
+<script setup>11
 const { productsData } = defineProps({
   productsData: {
     type: Array,
