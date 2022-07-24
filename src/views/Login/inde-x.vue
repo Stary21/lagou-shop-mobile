@@ -1,31 +1,70 @@
 <template>
   <van-form @submit="submitHandle">
-    <img class="logo" :src="state.logoUrl" alt="">
+    <img
+      class="logo"
+      :src="state.logoUrl"
+      alt=""
+    >
     <van-cell-group inset>
-      <van-field v-model="state.username" clearable name="用户名" label="用户名" placeholder="用户名" />
+      <van-field
+        v-model="state.username"
+        clearable
+        name="用户名"
+        label="用户名"
+        placeholder="用户名"
+      />
 
-      <van-field v-if="state.isPassword" v-model="state.password" type="password" clearable name="密码" label="密码"
-        placeholder="密码" />
+      <van-field
+        v-if="state.isPassword"
+        v-model="state.password"
+        type="password"
+        clearable
+        name="密码"
+        label="密码"
+        placeholder="密码"
+      />
 
-      <van-field v-else v-model="state.captcha" center clearable name="验证码" label="短信验证码" placeholder="短信验证码">
+      <van-field
+        v-else
+        v-model="state.captcha"
+        center
+        clearable
+        name="验证码"
+        label="短信验证码"
+        placeholder="短信验证码"
+      >
         <template #button>
-          <van-button size="small" type="primary" @click="sendCaptcha" :disabled="state.isSend">
+          <van-button
+            size="small"
+            type="primary"
+            @click="sendCaptcha"
+            :disabled="state.isSend"
+          >
             {{ state.currentText }}
           </van-button>
         </template>
       </van-field>
     </van-cell-group>
     <div style="margin: 16px;">
-      <van-button round block type="primary" native-type="submit">
+      <van-button
+        round
+        block
+        type="primary"
+        native-type="submit"
+      >
         登录
       </van-button>
-      <span class="change-button" v-text="state.changeText" @click="changeMode"></span>
+      <span
+        class="change-button"
+        v-text="state.changeText"
+        @click="changeMode"
+      />
     </div>
   </van-form>
 </template>
 
 <script setup>
-import { computed, reactive } from "@vue/reactivity"
+import { computed, reactive } from 'vue'
 import { Toast } from 'vant'
 import { useCountDown } from '@vant/use'
 import { useStore } from 'vuex'
@@ -39,7 +78,6 @@ import {
   loginByPassword,
   loginByCaptcha
 } from '@/api/user'
-
 
 import { getLogo } from '@/api/home'
 
@@ -74,9 +112,6 @@ const changeMode = () => {
   state.password = ''
   state.captcha = ''
 }
-
-
-
 
 const sendCaptcha = async () => {
   // 手机号规则校验
@@ -135,6 +170,7 @@ const submitHandle = async () => {
   store.commit('user/setUser', data.data.token)
   // 跳转页面
   router.push(route.query.redirect ?? '/user')
+  console.log(data)
 }
 
 // // ---- 头像处理 ----

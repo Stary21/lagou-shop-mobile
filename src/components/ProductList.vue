@@ -1,20 +1,38 @@
 <template>
-  <van-grid :center="false" :gutter="15" class="product-list" :column-num="2">
-    <van-grid-item :to="{
-      name: 'product',
-      params: {
-        productId: item.id
-      }
-    }" v-for="item in productsData" :key="item.id">
-      <van-image height="165" :src="item.image" />
-      <p class="title">{{ item.store_name }}</p>
-      <p class="price">￥{{ item.price }}</p>
-      <p class="sales">已售{{ item.sales }}件</p>
+  <van-grid
+    :center="false"
+    :gutter="15"
+    class="product-list"
+    :column-num="2"
+  >
+    <van-grid-item
+      :to="{
+        name: 'product',
+        params: {
+          productId: item.id
+        }
+      }"
+      v-for="item in productsData.productsData"
+      :key="item.id"
+    >
+      <van-image
+        height="165"
+        :src="item.image"
+      />
+      <p class="title">
+        {{ item.store_name }}
+      </p>
+      <p class="price">
+        ￥{{ item.price }}
+      </p>
+      <p class="sales">
+        已售{{ item.sales }}件
+      </p>
     </van-grid-item>
   </van-grid>
 </template>
-<script setup>11
-const { productsData } = defineProps({
+<script setup>
+const productsData = defineProps({
   productsData: {
     type: Array,
     required: true

@@ -1,6 +1,6 @@
 const state = {
   // 用户 Token 信息
-  token: window.localStorage.getItem('USER_TOKEN'),
+  token: window.localStorage.getItem('USER_TOKEN')
 }
 const getters = {}
 const mutations = {

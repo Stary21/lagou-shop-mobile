@@ -2,58 +2,102 @@
   <div class="container">
     <!-- 头部 -->
     <div class="header">
-      <img :src="userAvatar" alt="">
+      <img
+        :src="userAvatar"
+        alt=""
+      >
       <div class="user-info">
-        <div class="user-name" v-text="username"></div>
-        <div class="user-id" v-text="userID"></div>
+        <div
+          class="user-name"
+          v-text="username"
+        />
+        <div
+          class="user-id"
+          v-text="userID"
+        />
       </div>
       <van-icon name="setting-o" />
     </div>
     <!-- 主体菜单区域 -->
     <div class="main">
-      <van-cell-group inset class="user-detail">
+      <van-cell-group
+        inset
+        class="user-detail"
+      >
         <van-cell>
           <van-grid :border="false">
             <van-grid-item :text="collectCount">
-              <template #icon>收藏</template>
+              <template #icon>
+                收藏
+              </template>
             </van-grid-item>
             <van-grid-item :text="integral">
-              <template #icon>积分</template>
+              <template #icon>
+                积分
+              </template>
             </van-grid-item>
             <van-grid-item :text="couponCount">
-              <template #icon>优惠券</template>
+              <template #icon>
+                优惠券
+              </template>
             </van-grid-item>
-            <van-grid-item :text="now_money">
-              <template #icon>余额</template>
+            <van-grid-item :text="nowmoney">
+              <template #icon>
+                余额
+              </template>
             </van-grid-item>
           </van-grid>
         </van-cell>
       </van-cell-group>
       <van-cell-group inset>
-        <van-cell title="订单中心" value="查看全部" is-link to="/order" />
-        <van-grid column-num="5" :border="false">
-          <van-grid-item icon="bill-o" text="待付款" />
-          <van-grid-item icon="tosend" text="待发货" />
-          <van-grid-item icon="logistics" text="待收货" />
-          <van-grid-item icon="comment-o" text="待评价" />
-          <van-grid-item icon="sign" text="已完成" />
+        <van-cell
+          title="订单中心"
+          value="查看全部"
+          is-link
+          to="/order"
+        />
+        <van-grid
+          column-num="5"
+          :border="false"
+        >
+          <van-grid-item
+            icon="bill-o"
+            text="待付款"
+          />
+          <van-grid-item
+            icon="tosend"
+            text="待发货"
+          />
+          <van-grid-item
+            icon="logistics"
+            text="待收货"
+          />
+          <van-grid-item
+            icon="comment-o"
+            text="待评价"
+          />
+          <van-grid-item
+            icon="sign"
+            text="已完成"
+          />
         </van-grid>
       </van-cell-group>
     </div>
     <!-- 公共底部 -->
-    <layout-footer></layout-footer>
+    <layout-footer />
   </div>
 </template>
 
 <script setup>
 import LayoutFooter from '@/components/LayoutFooter.vue'
+
 import { getUserInfo } from '@/api/user'
-import { computed, ref } from '@vue/reactivity'
+import { computed, ref } from 'vue'
 
 // 数据处理
 const userData = ref({})
 // 用户头像
-const userAvatar = computed(() => userData.value?.switchUserInfo?.[0].avatar)
+const userAvatar = computed(() => userData.value?.switchUserInfo?.[0].avatar || 'https://shop.fed.lagounews.com/uploads/attach/2021/06/20210611/abe8989da91300ab559ddf619597e258.png')
 // 用户昵称
 const username = computed(() => userData.value?.nickname || '')
 // 用户 ID
@@ -63,7 +107,7 @@ const userID = computed(() => 'ID：' + (userData.value?.uid || ''))
 const collectCount = computed(() => userData.value?.collectCount?.toString() || '')
 const integral = computed(() => userData.value?.integral?.toString() || '')
 const couponCount = computed(() => userData.value?.couponCount?.toString() || '')
-const now_money = computed(() => userData.value?.now_money?.toString() || '')
+const nowmoney = computed(() => userData.value?.now_money?.toString() || '')
 
 // 初始化用户数据
 const initUserInfo = async () => {

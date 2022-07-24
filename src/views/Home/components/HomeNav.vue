@@ -1,11 +1,18 @@
 <template>
   <div class="home-nav">
-    <img height="20" src="@/assets/logo.png" alt="">
+    <img
+      height="20"
+      src="@/assets/logo.png"
+      alt=""
+    >
     <div class="search">
-      <van-icon name="search" size="0.5rem"></van-icon>
+      <van-icon
+        name="search"
+        size="0.5rem"
+      />
     </div>
 
-    <van-icon name="wap-nav"></van-icon>
+    <van-icon name="wap-nav" />
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
-  <home-nav></home-nav>
-  <home-main class="home-main"></home-main>
+  <home-nav />
+  <home-main class="home-main" />
   <layout-footer />
 </template>
 <script setup>

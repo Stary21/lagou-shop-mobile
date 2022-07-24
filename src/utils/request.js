@@ -1,10 +1,10 @@
 import axios from 'axios'
-const request = axios.create({
-  baseURL: 'https://shop.fed.lagounews.com/api'
-})
 
 import store from '@/store'
 import router from '@/router'
+const request = axios.create({
+  baseURL: 'https://shop.fed.lagounews.com/api'
+})
 request.interceptors.request.use(config => {
   const { user } = store.state
   config.headers.Authorization = 'Bearer ' + user.token

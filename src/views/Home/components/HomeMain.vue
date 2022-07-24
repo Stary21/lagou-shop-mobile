@@ -1,40 +1,77 @@
 <template>
-  <van-pull-refresh class="home-main" v-model="state.refreshing" @refresh="onRefresh">
+  <van-pull-refresh
+    class="home-main"
+    v-model="state.refreshing"
+    @refresh="onRefresh"
+  >
     <!-- 轮播图 -->
-    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item v-for="(img, index) in swipeData" :key="index">
-        <img :src="img.img" alt="">
+    <van-swipe
+      class="my-swipe"
+      :autoplay="3000"
+      indicator-color="white"
+    >
+      <van-swipe-item
+        v-for="(img, index) in swipeData"
+        :key="index"
+      >
+        <img
+          :src="img.img"
+          alt=""
+        >
       </van-swipe-item>
     </van-swipe>
 
     <!-- 菜单 -->
-    <van-grid column-num="4" icon-size="40">
-      <van-grid-item v-for="(item, index) in menusData" :key="index" :icon="item.img" :text="item.info[0].value" />
+    <van-grid
+      column-num="4"
+      icon-size="40"
+    >
+      <van-grid-item
+        v-for="(item, index) in menusData"
+        :key="index"
+        :icon="item.img"
+        :text="item.info[0].value"
+      />
     </van-grid>
 
     <!-- 通知栏 -->
-    <van-notice-bar left-icon="volume-o" :scrollable="false">
+    <van-notice-bar
+      left-icon="volume-o"
+      :scrollable="false"
+    >
       <span>热点资讯公告：</span>
-      <van-swipe vertical class="notice-swipe" :autoplay="3000" :show-indicators="false">
-        <van-swipe-item v-for="(item, index) in newsData" :key="index" v-text="item.chiild[0].val">
+      <van-swipe
+        vertical
+        class="notice-swipe"
+        :autoplay="3000"
+        :show-indicators="false"
+      >
+        <van-swipe-item
+          v-for="(item, index) in newsData"
+          :key="index"
+        >
+          {{ item.chiild[0].val }}
         </van-swipe-item>
       </van-swipe>
     </van-notice-bar>
 
     <!-- 商品 -->
-    <van-list v-model:loading="state.loading" :finished="state.finished" finished-text="没有更多了" @load="initProductsData">
-      <product-list :products-data="state.productsData"></product-list>
+    <van-list
+      v-model:loading="state.loading"
+      :finished="state.finished"
+      finished-text="没有更多了"
+      @load="initProductsData"
+    >
+      <product-list :products-data="state.productsData" />
     </van-list>
   </van-pull-refresh>
-
 </template>
 <script setup>
 
 import ProductList from '@/components/ProductList.vue'
 import { getProductsData } from '@/api/product.js'
 import { getDefaultData } from '@/api/home.js'
-import { computed } from '@vue/reactivity';
-import { ref, reactive } from 'vue';
+import { computed, ref, reactive } from 'vue'
 
 const indexData = ref({})
 const initIndexData = async () => {
@@ -56,7 +93,7 @@ const newsData = computed(() => {
 })
 initIndexData()
 let page = 1
-let limit = 4
+const limit = 4
 const state = reactive({
   productsData: [],
   loading: false,
@@ -72,20 +109,13 @@ const initProductsData = async () => {
     return
   }
 
-
-
-
   // 路径重置
-
 
   data.data.forEach(item => {
     if (!/lagounews/.test(item.image)) {
       item.image = item.image.replace('lagou', 'lagounews')
     }
   })
-
-
-
 
   state.productsData.push(...data.data)
   state.loading = false

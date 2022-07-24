@@ -4,9 +4,6 @@ const resetUrl = function (url) {
     item = item.replace('lagou', 'lagounews')
   }
   return item
-
 }
-
-
 
 export default resetUrl

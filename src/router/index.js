@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import store from '@/store/index'
 
 const routes = [
   {
@@ -21,6 +22,13 @@ const routes = [
     name: 'category-detail',
     component: () => import('@/views/CategoryDetail/inde-x.vue'),
     props: true
+  },
+  {
+    path: '/address',
+    name: 'address',
+    component: () => import('@/views/Address/index.vue'),
+    props: true,
+    meta: { requireAuth: true }
   },
   {
     path: '/order-confirm',
@@ -96,7 +104,6 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
-import store from '@/store/index'
 router.beforeEach(to => {
   if (!to.meta.requireAuth) {
     return true
@@ -110,6 +117,5 @@ router.beforeEach(to => {
     }
   }
 })
-
 
 export default router

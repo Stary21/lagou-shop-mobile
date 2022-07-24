@@ -1,36 +1,60 @@
 <template>
   <van-cell-group class="comment">
-
-
-    <van-cell title="商品评价" :value="`好评率:${state.replyChance}%`"></van-cell>
-
+    <van-cell
+      title="商品评价"
+      :value="`好评率:${state.replyChance}%`"
+    />
 
     <van-cell class="tags">
-      <van-button size="small" :class="{ active: state.isSum }" @click="tagHandle('0')">全部({{ state.sumCount }})
+      <van-button
+        size="small"
+        :class="{ active: state.isSum }"
+        @click="tagHandle('0')"
+      >
+        全部({{ state.sumCount }})
       </van-button>
-      <van-button size="small" :class="{ active: state.isGood }" @click="tagHandle('1')">好评({{ state.goodCount }})
+      <van-button
+        size="small"
+        :class="{ active: state.isGood }"
+        @click="tagHandle('1')"
+      >
+        好评({{ state.goodCount }})
       </van-button>
-      <van-button size="small" :class="{ active: state.isIn }" @click="tagHandle('2')">中评({{ state.inCount }})
+      <van-button
+        size="small"
+        :class="{ active: state.isIn }"
+        @click="tagHandle('2')"
+      >
+        中评({{ state.inCount }})
       </van-button>
-      <van-button size="small" :class="{ active: state.isPoor }" @click="tagHandle('3')">差评({{ state.poorCount }})
+      <van-button
+        size="small"
+        :class="{ active: state.isPoor }"
+        @click="tagHandle('3')"
+      >
+        差评({{ state.poorCount }})
       </van-button>
     </van-cell>
 
-
-
     <div v-if="state.hasComment">
-      <comment-item v-for="reply in state.commentList" :key="reply.id" :reply="reply"></comment-item>
+      <comment-item
+        v-for="reply in state.commentList"
+        :key="reply.id"
+        :reply="reply"
+      />
     </div>
 
-
-    <van-empty v-else description="暂时还没有评价哦~"></van-empty>
+    <van-empty
+      v-else
+      description="暂时还没有评价哦~"
+    />
   </van-cell-group>
 </template>
 <script setup>
 import CommentItem from '@/components/CommentItem.vue'
 import { getCommentCount, getCommentByTag } from '@/api/product'
-import { computed, reactive } from '@vue/reactivity'
-const { productId } = defineProps({
+import { computed, reactive } from 'vue'
+const productId = defineProps({
   productId: {
     type: String,
     required: true
@@ -60,14 +84,14 @@ const state = reactive({
 })
 
 async function initReplyData () {
-  const { data } = await getCommentCount(productId)
+  const { data } = await getCommentCount(productId.productId)
   if (data.status !== 200) { return }
   state.commentCounts = data.data
 }
 initReplyData()
 
 async function initCommentByTag (type) {
-  const { data } = await getCommentByTag(productId, { type })
+  const { data } = await getCommentByTag(productId.productId, { type })
   if (data.status !== 200) { return }
   state.commentList = data.data
 }
