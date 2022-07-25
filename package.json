@@ -27,6 +27,7 @@
     "eslint-plugin-vue": "^9.2.0",
     "postcss-pxtorem": "^6.0.0",
     "sass": "^1.5.1",
+    "unplugin-vue-components": "^0.21.1",
     "vite": "^3.0.0"
   }
 }

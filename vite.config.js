@@ -14,6 +14,7 @@ export default defineConfig({
     //   resolvers: [VantResolver()],
     // })
   ],
+  base: './',
   resolve: {
     alias: [
       { find: '@', replacement: resolve(__dirname, 'src') }
