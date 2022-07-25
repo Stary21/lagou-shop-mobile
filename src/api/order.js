@@ -20,3 +20,16 @@ export const createOrder = (orderKey, data) => request({
   url: `/order/create/${orderKey}`,
   data
 })
+
+// 创建订单
+export const getOrderList = () => request({
+  method: 'GET',
+  url: '/order/list'
+})
+
+// 创建订单
+export const getOrderDetail = (orderId) => request({
+  method: 'GET',
+  url: `/order/detail/${orderId}`
+})
+

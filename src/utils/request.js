@@ -8,6 +8,7 @@ const request = axios.create({
 request.interceptors.request.use(config => {
   const { user } = store.state
   config.headers.Authorization = 'Bearer ' + user.token
+  console.log(config.headers.Authorization)
   return config
 })
 

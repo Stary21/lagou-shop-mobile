@@ -2,28 +2,16 @@
   <div class="container">
     <!-- 头部 -->
     <div class="header">
-      <img
-        :src="userAvatar"
-        alt=""
-      >
+      <img :src="userAvatar" alt="">
       <div class="user-info">
-        <div
-          class="user-name"
-          v-text="username"
-        />
-        <div
-          class="user-id"
-          v-text="userID"
-        />
+        <div class="user-name" v-text="username" />
+        <div class="user-id" v-text="userID" />
       </div>
       <van-icon name="setting-o" />
     </div>
     <!-- 主体菜单区域 -->
     <div class="main">
-      <van-cell-group
-        inset
-        class="user-detail"
-      >
+      <van-cell-group inset class="user-detail">
         <van-cell>
           <van-grid :border="false">
             <van-grid-item :text="collectCount">
@@ -50,36 +38,43 @@
         </van-cell>
       </van-cell-group>
       <van-cell-group inset>
-        <van-cell
-          title="订单中心"
-          value="查看全部"
-          is-link
-          to="/order"
-        />
-        <van-grid
-          column-num="5"
-          :border="false"
-        >
-          <van-grid-item
-            icon="bill-o"
-            text="待付款"
-          />
-          <van-grid-item
-            icon="tosend"
-            text="待发货"
-          />
-          <van-grid-item
-            icon="logistics"
-            text="待收货"
-          />
-          <van-grid-item
-            icon="comment-o"
-            text="待评价"
-          />
-          <van-grid-item
-            icon="sign"
-            text="已完成"
-          />
+        <van-cell title="订单中心" value="查看全部" is-link :to="{
+          path: '/order',
+          query: {
+            typeId: 5
+          }
+        }" />
+        <van-grid clickable column-num="5" :border="false">
+          <van-grid-item :to="{
+            path: '/order',
+            query: {
+              typeId: 0
+            }
+          }" icon="bill-o" text="待付款" :badge="unpaid" />
+          <van-grid-item :to="{
+            path: '/order',
+            query: {
+              typeId: 1
+            }
+          }" icon="tosend" text="待发货" :badge="unshipped" />
+          <van-grid-item :to="{
+            path: '/order',
+            query: {
+              typeId: 2
+            }
+          }" icon="logistics" text="待收货" :badge="received" />
+          <van-grid-item :to="{
+            path: '/order',
+            query: {
+              typeId: 3
+            }
+          }" icon="comment-o" text="待评价" :badge="evaluated" />
+          <van-grid-item :to="{
+            path: '/order',
+            query: {
+              typeId: 4
+            }
+          }" icon="sign" text="已完成" :badge="complete" />
         </van-grid>
       </van-cell-group>
     </div>
@@ -93,15 +88,24 @@ import LayoutFooter from '@/components/LayoutFooter.vue'
 
 import { getUserInfo } from '@/api/user'
 import { computed, ref } from 'vue'
-
+import { useRoute } from 'vue-router';
+const router = useRoute()
 // 数据处理
 const userData = ref({})
+
 // 用户头像
 const userAvatar = computed(() => userData.value?.switchUserInfo?.[0].avatar || 'https://shop.fed.lagounews.com/uploads/attach/2021/06/20210611/abe8989da91300ab559ddf619597e258.png')
 // 用户昵称
 const username = computed(() => userData.value?.nickname || '')
 // 用户 ID
 const userID = computed(() => 'ID：' + (userData.value?.uid || ''))
+
+const unpaid = computed(() => (userData.value?.orderStatusNum?.unpaid_count || ''))
+const unshipped = computed(() => (userData.value?.orderStatusNum?.unshipped_count || ''))
+const received = computed(() => (userData.value?.orderStatusNum?.received_count || ''))
+const evaluated = computed(() => (userData.value?.orderStatusNum?.evaluated_count || ''))
+const complete = computed(() => (userData.value?.orderStatusNum?.complete_count || ''))
+// console.log(unpaid)
 
 // 用户详情信息
 const collectCount = computed(() => userData.value?.collectCount?.toString() || '')
@@ -114,8 +118,11 @@ const initUserInfo = async () => {
   const { data } = await getUserInfo()
   if (data.status !== 200) { return }
   userData.value = data.data
+  console.log(userData.value?.orderStatusNum)
+  console.log(userData.value?.orderStatusNum.unpaid_count)
 }
 initUserInfo()
+
 </script>
 
 <style lang="scss" scoped>

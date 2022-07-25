@@ -205,9 +205,14 @@ const handlePay = async () => {
     addressId: currentAddress.value.id,
     payType: paymentMethod.value
   })
-  console.log(orderConfirmData.value.orderKey)
-  console.log(currentAddress.value.id)
-  console.log(paymentMethod.value)
+  console.log(data)
+  if (data.status === 400) {
+    Toast.success('支付失败，系统打游戏去了...')
+    router.push({
+      name: 'order'
+    })
+    return
+  }
   if (data.status !== 200) { return }
   // 提示并跳转
   Toast.success('支付成功，自动跳转登录页...')
