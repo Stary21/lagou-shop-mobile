@@ -1,16 +1,22 @@
 <template>
+  <!-- 容器 -->
   <div class="container">
+    <!-- 顶部标题 -->
     <van-nav-bar title="我的订单" left-arrow />
 
-
+    <!-- 下拉列表 选择订单类型 -->
     <van-dropdown-menu>
       <van-dropdown-item v-model="value1" :options="option1" />
       <van-dropdown-item v-model="value2" :options="option2" />
     </van-dropdown-menu>
+    <!-- 内容区域 -->
+    <!-- 下拉刷新 -->
     <van-pull-refresh v-model="loading" @refresh="onRefresh">
       <p>刷新次数: {{ count }}</p>
+      <!-- 订单 -->
       <van-cell-group @click="handleRouter(item.order_id)" v-if="hehe" :border="false" v-for="item in allList"
         :key="item.cartInfo[0].id">
+        <!-- 滑动删除 -->
         <van-swipe-cell>
           <van-cell :border="false" class="product">
             <img :src="item.cartInfo[0].productInfo.image" alt="">
@@ -32,13 +38,13 @@
           </template>
         </van-swipe-cell>
       </van-cell-group>
+
       <van-empty image-size="50vh" v-else description="没有这类订单" />
     </van-pull-refresh>
   </div>
 </template>
 <script setup>
 import { getOrderList } from '@/api/order'
-import { computed } from '@vue/reactivity';
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 const router = useRouter()
@@ -53,9 +59,10 @@ const loading = ref(false)
 const count = ref(0)
 
 const route = useRoute()
+// 用户传递的订单类型
 const num = parseInt(route.query.typeId)
 const value1 = ref(num)
-
+// 无用
 const value2 = ref('a')
 const option1 = [
   { text: '全部订单', value: 5 },
@@ -73,7 +80,7 @@ const option2 = [
 
 
 
-
+// 请求数据
 const initOrderList = async () => {
   const { data } = await getOrderList()
   if (data.status !== 200) { return }
@@ -99,7 +106,7 @@ const initOrderList = async () => {
 }
 initOrderList()
 
-
+// 监听订单类型的变化
 
 watch(value1, (newvalue, oldvalue) => {
   console.log(`值变了${oldvalue}-${newvalue}`
@@ -108,6 +115,8 @@ watch(value1, (newvalue, oldvalue) => {
   initOrderList()
 
 })
+
+// 页面刷新
 const onRefresh = () => {
   initOrderList()
 }
