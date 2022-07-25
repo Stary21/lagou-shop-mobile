@@ -1,45 +1,19 @@
 <template>
-  <van-nav-bar
-    left-arrow
-    fixed
-  />
-  <van-tabs
-    scrollspy
-    color="#FBC546"
-  >
+  <van-nav-bar left-arrow fixed />
+  <van-tabs scrollspy color="#FBC546">
     <van-tab title="商品">
-      <van-swipe
-        :autoplay="3000"
-        width="375"
-        height="375"
-      >
-        <van-swipe-item
-          v-for="(item, index) in sliderImage"
-          :key="index"
-        >
-          <img
-            :src="item"
-            alt=""
-          >
+      <van-swipe :autoplay="3000" width="375" height="375">
+        <van-swipe-item v-for="(item, index) in sliderImage" :key="index">
+          <img :src="item" alt="">
         </van-swipe-item>
       </van-swipe>
-      <van-cell
-        class="productHeader"
-        :border="false"
-      >
+      <van-cell class="productHeader" :border="false">
         <template #title>
           <div class="price">
             <span>￥{{ storeInfo?.price }}</span>
-            <van-icon
-              name="share-o"
-              size="20"
-              class="share"
-            />
+            <van-icon name="share-o" size="20" class="share" />
           </div>
-          <div
-            class="title"
-            v-text="storeInfo?.store_name"
-          />
+          <div class="title" v-text="storeInfo?.store_name" />
         </template>
         <!-- 其他信息 -->
         <template #label>
@@ -49,32 +23,18 @@
         </template>
       </van-cell>
       <!-- 3. 商品规格选择区域 -->
-      <van-cell
-        class="sku_window"
-        is-link
-        @click="handlePopup"
-      >
+      <van-cell class="sku_window" is-link @click="handlePopup">
         <template #title>
           <span>已选择：{{ sku }}</span>
         </template>
       </van-cell>
 
-      <van-popup
-        v-model:show="specState.show"
-        position="bottom"
-        class="popup"
-      >
+      <van-popup v-model:show="specState.show" position="bottom" class="popup">
         <van-cell-group>
           <van-cell class="popup-header">
-            <img
-              :src="specDetail?.image"
-              alt=""
-            >
+            <img :src="specDetail?.image" alt="">
             <div class="info">
-              <p
-                class="title"
-                v-text="storeInfo?.store_name"
-              />
+              <p class="title" v-text="storeInfo?.store_name" />
               <p class="price">
                 ￥{{ specDetail?.price }}
               </p>
@@ -83,51 +43,27 @@
               </p>
             </div>
           </van-cell>
-          <van-cell
-            class="spec"
-            v-for="(attr, specIndex) in productAttr"
-            :key="attr.id"
-          >
+          <van-cell class="spec" v-for="(attr, specIndex) in productAttr" :key="attr.id">
             <p v-text="attr.attr_name" />
-            <span
-              class="tag"
-              :class="{ active: specState.spec[specIndex] === tag }"
-              v-for="tag in attr.attr_values"
-              :key="tag"
-              v-text="tag"
-              @click="handleTagChange(tag, specIndex)"
-            />
+            <span class="tag" :class="{ active: specState.spec[specIndex] === tag }" v-for="tag in attr.attr_values"
+              :key="tag" v-text="tag" @click="handleTagChange(tag, specIndex)" />
           </van-cell>
           <van-cell title="数量">
-            <van-stepper
-              v-model="specState.buyCount"
-              :max="specDetail?.stock"
-            />
+            <van-stepper v-model="specState.buyCount" :max="specDetail?.stock" />
           </van-cell>
         </van-cell-group>
       </van-popup>
     </van-tab>
 
-    <van-tab
-      title="评价"
-      class="comment"
-    >
+    <van-tab title="评价" class="comment">
       <van-cell-group>
-        <van-cell
-          is-link
-          :title="replyInfo"
-          :value="replyRate"
-          :to="{
-            name: 'comment',
-            params: {
-              productId: storeInfo?.id
-            }
-          }"
-        />
-        <comment-item
-          v-if="replyCount !== 0"
-          :reply="reply"
-        />
+        <van-cell is-link :title="replyInfo" :value="replyRate" :to="{
+          name: 'comment',
+          params: {
+            productId: storeInfo?.id
+          }
+        }" />
+        <comment-item v-if="replyCount !== 0" :reply="reply" />
       </van-cell-group>
     </van-tab>
 
@@ -136,20 +72,13 @@
         <p class="title">
           推荐商品
         </p>
-        <van-grid
-          :border="false"
-          :column-num="3"
-        >
-          <van-grid-item
-            v-for="item in goodsList"
-            :key="item.id"
-            :to="{
-              name: 'product',
-              params: {
-                productId: item.id
-              }
-            }"
-          >
+        <van-grid :border="false" :column-num="3">
+          <van-grid-item v-for="item in goodsList" :key="item.id" :to="{
+            name: 'product',
+            params: {
+              productId: item.id
+            }
+          }">
             <van-image :src="item.image" />
             <p v-text="item.store_name" />
             <span>￥{{ item.price }}</span>
@@ -159,39 +88,17 @@
     </van-tab>
 
     <van-tab title="详情">
-      <div
-        class="description"
-        v-html="storeInfo?.description"
-      />
+      <div class="description" v-html="storeInfo?.description" />
     </van-tab>
   </van-tabs>
 
   <!-- 加入购物车 -->
   <van-action-bar>
-    <van-action-bar-icon
-      icon="chat-o"
-      text="客服"
-      color="#ee0a24"
-    />
-    <van-action-bar-icon
-      icon="cart-o"
-      text="购物车"
-      to="/cart"
-    />
-    <van-action-bar-icon
-      icon="star"
-      text="已收藏"
-      color="#ff5000"
-    />
-    <van-action-bar-button
-      type="warning"
-      text="加入购物车"
-      @click="handleCartAdd"
-    />
-    <van-action-bar-button
-      type="danger"
-      text="立即购买"
-    />
+    <van-action-bar-icon icon="chat-o" text="客服" color="#ee0a24" />
+    <van-action-bar-icon icon="cart-o" text="购物车" to="/cart" />
+    <van-action-bar-icon icon="star" text="已收藏" color="#ff5000" />
+    <van-action-bar-button type="warning" text="加入购物车" @click="handleCartAdd" />
+    <van-action-bar-button type="danger" text="立即购买" />
   </van-action-bar>
 </template>
 
